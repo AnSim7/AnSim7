@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "116740741160",
+    "firebase_url": "https://slider-c1d85.firebaseio.com",
+    "project_id": "slider-c1d85",
+    "storage_bucket": "slider-c1d85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116740741160:android:ed6cad4e023fa5885cbd1d",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116740741160-mno1fc13smrdodf5ns4o72s60m35m5lq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWaoSuyeuTYHRPlvAiVKXzZ4sZzrS-fUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116740741160-mno1fc13smrdodf5ns4o72s60m35m5lq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
