@@ -34,6 +34,8 @@ class OnboardingViewPagerAdapter(val context: Context, val listSlides: ArrayList
         val text: TextView=layout.findViewById(R.id.introText)
         val targetLink: Button=layout.findViewById(R.id.targetLink)
 
+
+
         title.setText(listSlides[position].title)
         description.setText(listSlides[position].subtitle)
         GlideApp.with(context)

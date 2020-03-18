@@ -16,7 +16,9 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.example.onboarding_project.OnboardingViewModel
@@ -27,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_intro.*
 
 class OnboardingActivity : AppCompatActivity() {
 
-    private val viewmodel by lazy { ViewModelProviders.of(this).get(OnboardingViewModel::class.java) }
+    private val viewmodel by lazy { ViewModelProvider(this).get(OnboardingViewModel::class.java) }
     private lateinit var introViewPageAdapter: OnboardingViewPagerAdapter
     private lateinit var tabIndicator: TabLayout
     private lateinit var btn_next: Button
@@ -68,6 +70,7 @@ class OnboardingActivity : AppCompatActivity() {
 
                 val screenPager = findViewById<View>(R.id.screen_viewpager) as ViewPager
                 introViewPageAdapter = OnboardingViewPagerAdapter(this, it)
+
                 screenPager.adapter = introViewPageAdapter
 
                 tabIndicator.setupWithViewPager(screenPager)

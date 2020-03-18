@@ -41,9 +41,9 @@ class OnboardingModel {
 
                     if ((idsCity.contains(idCity.toLong()))) {
                         if (!((document.getBoolean("isSubscriber") == true) and (!isAbonent))) {
-                            val slides = document.get("slides") as HashMap<String, ArrayList<HashMap<String, Long>>>
-                            val list = slides.get("id_number") as ArrayList<HashMap<String, Long>>
-                            for (value1 in list) {
+                            val slides = document.get("slides") as ArrayList<HashMap<String, Long>>
+                            //val list = slides.get("id_number") as ArrayList<HashMap<String, Long>>
+                            for (value1 in slides) {
                                 val id = value1["id"]
                                 val number = value1["number"]
 

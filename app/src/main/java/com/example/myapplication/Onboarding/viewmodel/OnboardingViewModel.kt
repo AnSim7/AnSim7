@@ -1,18 +1,30 @@
 package com.example.onboarding_project
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import com.example.myapplication.MainApplication
+import com.example.myapplication.room.OnboardingDbModel
+import com.example.myapplication.room.OnboardingRepository
+import com.example.myapplication.room.OnboardingRoomDatabase
+import com.example.myapplication.room.OnboaringDao
 import kotlinx.coroutines.*
 
 
-class OnboardingViewModel : ViewModel() {
+class OnboardingViewModel(application: Application) : AndroidViewModel(application) {
     private var _data = MutableLiveData<ArrayList<Slide>>()
     val data: LiveData<ArrayList<Slide>>
         get() = _data
     private val model = OnboardingModel()
+
+    private lateinit var repository: OnboardingRepository
+    private lateinit var allSlides: LiveData<List<OnboardingDbModel?>?>
+
+    init{
+        val onboaringDao= MainApplication.instance.database.onboaringDao()
+        repository= OnboardingRepository(onboaringDao)
+        allSlides=repository.slides
+    }
 
     fun readData(
         type: String,
@@ -33,3 +45,5 @@ class OnboardingViewModel : ViewModel() {
 
 
 }
+
+
