@@ -1,3 +1,6 @@
+
+
+
 package com.example.myapplication
 
 import android.content.Intent
@@ -16,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         userSession.clean() //закомментировать
         if (userSession.inNeedShowOnboarding) {
             val intent = Intent(this@MainActivity, OnboardingActivity::class.java)
-            intent.putExtra("type", TypeOnboarding.INTERCOME)
+            intent.putExtra("type", TypeOnboarding.SETTINGS)
             val isSubscriber = true
             intent.putExtra("isSubscriber", isSubscriber)
             val idCity = 74
@@ -28,3 +31,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+
+

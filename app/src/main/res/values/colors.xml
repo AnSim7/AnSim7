@@ -12,6 +12,6 @@
     <color name="tab_title_color">#000000</color>
     <color name="tab_description_color">#656565</color>
     <color name="intro_title_color">#4c84ff</color>
-
+    <color name="buttonLabel">#d3d3d3</color>
 
 </resources>

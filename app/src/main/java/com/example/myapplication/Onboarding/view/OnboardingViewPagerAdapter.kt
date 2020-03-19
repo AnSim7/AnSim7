@@ -8,10 +8,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
-import com.example.onboarding_project.Slide
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideApp
+import com.example.myapplication.Onboarding.model.SlideEntity
 
-class OnboardingViewPagerAdapter(val context: Context, val listSlides: ArrayList<Slide>): PagerAdapter() {
+class OnboardingViewPagerAdapter(val context: Context, val listSlides: List<SlideEntity>): PagerAdapter() {
 
     override fun isViewFromObject(view: View, o: Any): Boolean {
         return view===o

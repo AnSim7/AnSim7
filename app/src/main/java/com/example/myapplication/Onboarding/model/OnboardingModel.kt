@@ -1,13 +1,10 @@
 package com.example.onboarding_project
 
-import android.util.Log
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import java.lang.Exception
 
-class Slide(
+class AboutSlide(
+    val id: Long,
     val image: String,
     val subtitle: String,
     var targetLink: String,
@@ -22,19 +19,26 @@ class OnboardingModel {
         type: String,
         isAbonent: Boolean,
         idCity: Int,
-        onComplete: (arr: ArrayList<Slide>) -> Unit,
+        onComplete: (arr: ArrayList<AboutSlide>) -> Unit,
         onFailed: (ex: Exception) -> Unit
     ) {
         val db = FirebaseFirestore.getInstance()
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(false) // отключение кэширования
+            .build()
+        db.firestoreSettings = settings
         db.collection("onboarding")
             .whereEqualTo("type", type)
             .get()
             .addOnSuccessListener { result ->
-                val data = arrayListOf<Slide>()
+                val data = arrayListOf<AboutSlide>()
                 val idsSlide = arrayListOf<Long>()
                 val checked_list_id_number =
                     HashMap<Long, Long>() //список слайдов без повторений, на случай если будет несколько документов с type
 
+                if(result.isEmpty){
+                    onFailed(Exception())
+                }
                 for (document in result) {
                     //Log.d("exist!!!", "${document.id} => ${document.data}")
                     val idsCity = document.get("idCity") as ArrayList<Long>
@@ -71,6 +75,7 @@ class OnboardingModel {
                         }
                     }
                 }
+
             }
             .addOnFailureListener { exception ->
                 onFailed(exception)
@@ -79,7 +84,7 @@ class OnboardingModel {
 
     private fun load_slides(
         documentReference: QuerySnapshot,
-        data: ArrayList<Slide>,
+        data: ArrayList<AboutSlide>,
         idsSlide: ArrayList<Long>,
         id: Long,
         checked_list_id_number: HashMap<Long, Long>
@@ -87,7 +92,8 @@ class OnboardingModel {
         for (subdocument in documentReference) {
             if (idsSlide.contains(subdocument.getLong("id"))) {
                 idsSlide.remove(subdocument.getLong("id"))
-                val slide = Slide(
+                val slide = AboutSlide(
+                    subdocument.getLong("id")!!.toLong(),
                     subdocument.getString("image").toString(),
                     subdocument.getString("subtitle").toString(),
                     subdocument.getString("targetLink").toString(),
