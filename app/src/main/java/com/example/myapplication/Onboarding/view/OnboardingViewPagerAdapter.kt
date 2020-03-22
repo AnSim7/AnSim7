@@ -10,11 +10,13 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideApp
 import com.example.myapplication.Onboarding.model.SlideEntity
+import com.example.myapplication.databinding.LayoutScreenBinding
 
-class OnboardingViewPagerAdapter(val context: Context, val listSlides: List<SlideEntity>): PagerAdapter() {
+
+class OnboardingViewPagerAdapter(val context: Context, val listSlides: List<SlideEntity>) : PagerAdapter() {
 
     override fun isViewFromObject(view: View, o: Any): Boolean {
-        return view===o
+        return view === o
     }
 
     override fun getCount(): Int {
@@ -26,32 +28,24 @@ class OnboardingViewPagerAdapter(val context: Context, val listSlides: List<Slid
     }
 
     override fun instantiateItem(collection: ViewGroup, position: Int): Any {
-        val inflater = LayoutInflater.from(context)
-        val layout = inflater.inflate(R.layout.layout_screen, collection, false)
-        val imgSlide: ImageView=layout.findViewById(R.id.intro_img)
-        val title: TextView=layout.findViewById(R.id.introTitle)
-        val description: TextView=layout.findViewById(R.id.introDescription)
-        val text: TextView=layout.findViewById(R.id.introText)
-        val targetLink: Button=layout.findViewById(R.id.targetLink)
 
+        val binding = LayoutScreenBinding.inflate(LayoutInflater.from(context), collection, false)
+        binding.introTitle.setText(listSlides[position].title)
+        binding.introDescription.setText(listSlides[position].subtitle)
+        binding.introText.setText(listSlides[position].text)
 
-
-        title.setText(listSlides[position].title)
-        description.setText(listSlides[position].subtitle)
         GlideApp.with(context)
             .load(listSlides[position].image)
             .override(720, 720)
             .centerCrop()
-            .into(imgSlide)
-        text.setText(listSlides[position].text)
+            .into(binding.introImg)
 
-        if(listSlides[position].targetLink!=""){
-            targetLink.visibility=View.VISIBLE
-            targetLink.setText(listSlides[position].targetLink)
+        if (listSlides[position].targetLink != "") {
+            binding.targetLink.visibility = View.VISIBLE
+            binding.targetLink.setText(listSlides[position].targetLink)
         }
 
-        collection.addView(layout)
-
-        return layout
+        collection?.addView(binding.root)
+        return binding.root
     }
 }

@@ -17,18 +17,15 @@ abstract class SlideRoomDatabase : RoomDatabase() {
         fun getDatabase(
             context: Context
         ): SlideRoomDatabase {
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
+
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     SlideRoomDatabase::class.java,
                     "onboarding_database"
                 )
-                    //.addCallback(WordDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
-                // return instance
                 instance
             }
         }

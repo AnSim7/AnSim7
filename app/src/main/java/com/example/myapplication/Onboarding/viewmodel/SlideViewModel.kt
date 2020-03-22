@@ -11,15 +11,15 @@ import com.example.onboarding_project.AboutSlide
 class SlideViewModel(application: Application) : AndroidViewModel(application) {
 
     private lateinit var repository: SlideRepository
-    var allWords: LiveData<List<SlideEntity>> = MutableLiveData<List<SlideEntity>>()
+    var allSlides: LiveData<List<SlideEntity>> = MutableLiveData<List<SlideEntity>>()
     var arr = MutableLiveData<ArrayList<AboutSlide>>()
 
-    private val wordsDao = SlideRoomDatabase.getDatabase(application).wordDao()
+    private val slideDao = SlideRoomDatabase.getDatabase(application).wordDao()
 
 
-    fun loadDataFromFirestore(context: LifecycleOwner, type: String, isSubscriber: Boolean, idCity: Int){
-        repository = SlideRepository(wordsDao, type)
-        allWords = repository.allSlides
+    fun loadDataFromFirestore(context: LifecycleOwner, type: String, isSubscriber: Boolean, idCity: Int) {
+        repository = SlideRepository(slideDao, type)
+        allSlides = repository.allSlides
         repository.readData(type, isSubscriber, idCity)
 
         repository.infoAboutSlides.observe(context, Observer {
@@ -28,9 +28,4 @@ class SlideViewModel(application: Application) : AndroidViewModel(application) {
             }
         })
     }
-
-//    fun getCountSlides(): LiveData<Int>{
-//        return repository.countSlides
-//    }
-
 }

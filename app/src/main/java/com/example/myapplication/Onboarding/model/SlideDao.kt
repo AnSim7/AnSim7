@@ -16,8 +16,6 @@ interface SlideDao {
     suspend fun insert(word: SlideEntity)
 
     @Query("DELETE FROM slides_table WHERE type = :needType")
-    suspend fun deleteAll(needType: String)
+    fun deleteAll(needType: String)
 
-    @Query("SELECT COUNT(*) FROM slides_table WHERE type = :needType")
-    fun countNeedSlides(needType: String): LiveData<Int>
 }

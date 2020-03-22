@@ -36,7 +36,7 @@ class OnboardingModel {
                 val checked_list_id_number =
                     HashMap<Long, Long>() //список слайдов без повторений, на случай если будет несколько документов с type
 
-                if(result.isEmpty){
+                if (result.isEmpty) {
                     onFailed(Exception())
                 }
                 for (document in result) {
@@ -51,7 +51,7 @@ class OnboardingModel {
                                 val id = value1["id"]
                                 val number = value1["number"]
 
-                                if ((!idsSlide.contains(id)) and (number!! > 0)) {
+                                if (!idsSlide.contains(id)) {
                                     idsSlide.add(id!!)
                                     checked_list_id_number.put(id, number!!)
                                 }
