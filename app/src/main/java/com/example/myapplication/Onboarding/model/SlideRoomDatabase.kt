@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = arrayOf(SlideEntity::class), version = 1, exportSchema = false)
 abstract class SlideRoomDatabase : RoomDatabase() {
 
-    abstract fun wordDao(): SlideDao
+    abstract fun slideDao(): SlideDao
 
     companion object {
         @Volatile

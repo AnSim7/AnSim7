@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:orientation="vertical"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   android:background="#ffffff"
->
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:orientation="vertical"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:background="#ffffff"
+    >
 
-    <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                                android:id="@+id/guideline"
-                                                android:orientation="horizontal"
-                                                app:layout_constraintEnd_toEndOf="parent"
-                                                android:layout_marginEnd="32dp" app:layout_constraintGuide_end="295dp"/>
-    <TextView
-            android:textStyle="bold"
-            android:textColor="@color/intro_title_color"
-            android:textSize="32dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/introTitle"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center"
-            android:layout_marginStart="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/intro_img"
-            android:layout_marginTop="8dp"/>
-    <TextView
-            android:id="@+id/introDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="#000"
-            android:textSize="18dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/introTitle"
-            app:layout_constraintStart_toStartOf="@+id/introTitle"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/introTitle"
-            android:layout_marginStart="16dp"/>
-    <ImageView
-            android:layout_width="375dp"
-            android:layout_height="236dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/intro_img"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintHorizontal_bias="0.485"
-            app:layout_constraintTop_toTopOf="parent"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/introText" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/introDescription"/>
-    <Button
-            android:visibility="gone"
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/targetLink"
-            app:layout_constraintTop_toBottomOf="@+id/introText"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:id="@+id/guideline"
+                                                    android:orientation="horizontal"
+                                                    app:layout_constraintEnd_toEndOf="parent"
+                                                    android:layout_marginEnd="32dp"
+                                                    app:layout_constraintGuide_end="295dp"/>
+        <TextView
+                android:textStyle="bold"
+                android:textColor="@color/intro_title_color"
+                android:textSize="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/introTitle"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/intro_img"
+                android:layout_marginTop="8dp"/>
+        <TextView
+                android:id="@+id/introDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#000"
+                android:textSize="18dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/introTitle"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
+                android:id="@+id/intro_img"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/introText" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/introDescription"/>
+        <Button
+                android:visibility="gone"
+                android:text="Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/targetLink"
+                app:layout_constraintTop_toBottomOf="@+id/introText"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

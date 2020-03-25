@@ -7,10 +7,9 @@ import com.example.myapplication.Onboarding.model.SlideDao
 import com.example.myapplication.Onboarding.model.SlideEntity
 import com.example.onboarding_project.OnboardingModel
 import com.example.onboarding_project.AboutSlide
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 
 class SlideRepository(private val slideDao: SlideDao, val type: String) {
 
@@ -21,9 +20,33 @@ class SlideRepository(private val slideDao: SlideDao, val type: String) {
         get() = _infoAboutSlides
     private val modelFirestore = OnboardingModel()
 
+    private fun onCompleteLoad(arr: ArrayList<AboutSlide>) {
+        GlobalScope.launch(Main) {
+            withContext(IO) {
+                slideDao.deleteAll(type)
 
-    suspend fun insert(word: SlideEntity) {
-        slideDao.insert(word)
+                ArrayList<SlideEntity>().apply {
+                    arr.forEach { aboutSlide ->
+                        add(
+                            SlideEntity(
+                                aboutSlide.id,
+                                aboutSlide.title,
+                                type,
+                                aboutSlide.number,
+                                aboutSlide.subtitle,
+                                aboutSlide.text,
+                                aboutSlide.targetLink,
+                                aboutSlide.image
+                            )
+                        )
+                    }
+                }.let {
+                    slideDao.insert(it)
+                }
+            }
+
+            _infoAboutSlides.postValue(arr)
+        }
     }
 
     fun readData(
@@ -31,37 +54,10 @@ class SlideRepository(private val slideDao: SlideDao, val type: String) {
         isAbonent: Boolean,
         idCity: Int
     ) {
-        modelFirestore.loadData(type, isAbonent, idCity,
-            { arr ->
-                Unit
-                GlobalScope.launch {
-                    slideDao.deleteAll(type)
-                    GlobalScope.launch {
-                        for (value in arr) {
-                            insert(
-                                SlideEntity(
-                                    value.id,
-                                    value.title,
-                                    type,
-                                    value.number,
-                                    value.subtitle,
-                                    value.text,
-                                    value.targetLink,
-                                    value.image
-                                )
-                            )
-                            _infoAboutSlides.postValue(arr)
-                        }
-                    }
-
-                }
-            },
-            { exception ->
-                Unit
-                _infoAboutSlides.postValue(arrayListOf<AboutSlide>())
-                Log.d("!!!", "Oops, smth went wrong")
-            }
-        )
+        modelFirestore.loadData(type, isAbonent, idCity, this::onCompleteLoad) { exception ->
+            _infoAboutSlides.postValue(arrayListOf())
+            Log.d("!!!", "Oops, smth went wrong")
+        }
     }
 
 

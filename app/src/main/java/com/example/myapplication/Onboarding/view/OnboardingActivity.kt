@@ -8,21 +8,23 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.Onboarding.viewmodel.SlideViewModel
+import com.example.myapplication.databinding.ActivityIntroBinding
 import com.example.onboarding_project.TypeOnboarding
 import com.google.android.material.tabs.TabLayout
-import com.example.myapplication.Onboarding.viewmodel.SlideViewModel
-import com.example.myapplication.Onboarding.model.SlideEntity
-import com.example.myapplication.databinding.ActivityIntroBinding
 import kotlinx.android.synthetic.main.activity_intro.*
+import kotlinx.coroutines.delay
+import java.lang.Thread.sleep
+
 
 class OnboardingActivity : AppCompatActivity() {
 
@@ -35,39 +37,29 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        window.setFlags(
-//            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//            WindowManager.LayoutParams.FLAG_FULLSCREEN
-//        )
+
         supportActionBar?.hide() //полоска сверху
         binding = DataBindingUtil.setContentView(this, R.layout.activity_intro)
         binding.owner = this
 
-        val typeOnboarding = intent.getSerializableExtra("type") as TypeOnboarding
+        val typeOnboarding = intent.getSerializableExtra("type") as? TypeOnboarding
         val isSubsciber = intent.getBooleanExtra("isSubscriber", false)
         val idCity = intent.getIntExtra("idCity", 0)
 
-        slideViewModel.loadDataFromFirestore(this, typeOnboarding.type, isSubsciber, idCity)
+        slideViewModel.loadDataFromFirestore(this, typeOnboarding!!.type, isSubsciber, idCity)
         slideViewModel.arr.observe(this, Observer {
             var countSlides = it.size
             it?.let {
                 slideViewModel.allSlides.observe(this, Observer { slides ->
                     slides?.let {
-                        //var it_check: List<SlideEntity> = it
                         if ((countSlides == 0) and (slides.size == 0)) {
-//                            val text = "empty (no internet and no slides)"
-//                            val duration = Toast.LENGTH_SHORT
-//                            val toast = Toast.makeText(applicationContext, text, duration)
-//                            toast.show()
                             startActivity(Intent(this@OnboardingActivity, TargetActivity::class.java))
                         } else if (countSlides == 0) {
                             countSlides = slides.size
                         }
-                        progressBar.visibility = View.GONE
-                        //adapter.setWords(it)
                         introViewPageAdapter = OnboardingViewPagerAdapter(this, it)
                         binding.screenViewpager.adapter = introViewPageAdapter
-
+                        binding.progressBar.visibility = View.GONE
                         binding.tabLayout.setupWithViewPager(binding.screenViewpager)
                         binding.skip.setOnClickListener {
                             //it_check[screen_viewpager.currentItem].targetLink
@@ -88,10 +80,6 @@ class OnboardingActivity : AppCompatActivity() {
                             override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
                             override fun onTabSelected(tab: TabLayout.Tab?) {
-//                                val text = countSlides.toString()
-//                                val duration = Toast.LENGTH_SHORT
-//                                val toast = Toast.makeText(applicationContext, text, duration)
-//                                toast.show()
                                 if (tab?.position == countSlides - 1) {
                                     loadLastScreen()
                                 } else {

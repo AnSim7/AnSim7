@@ -13,9 +13,10 @@ interface SlideDao {
     fun getSlides(needType: String): LiveData<List<SlideEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(word: SlideEntity)
+    suspend fun insert(slides: List<SlideEntity>)
 
     @Query("DELETE FROM slides_table WHERE type = :needType")
     fun deleteAll(needType: String)
 
 }
+

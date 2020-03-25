@@ -14,7 +14,7 @@ class SlideViewModel(application: Application) : AndroidViewModel(application) {
     var allSlides: LiveData<List<SlideEntity>> = MutableLiveData<List<SlideEntity>>()
     var arr = MutableLiveData<ArrayList<AboutSlide>>()
 
-    private val slideDao = SlideRoomDatabase.getDatabase(application).wordDao()
+    private val slideDao = SlideRoomDatabase.getDatabase(application).slideDao()
 
 
     fun loadDataFromFirestore(context: LifecycleOwner, type: String, isSubscriber: Boolean, idCity: Int) {

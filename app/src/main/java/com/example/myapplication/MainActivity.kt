@@ -1,12 +1,11 @@
-
-
-
 package com.example.myapplication
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import com.example.onboarding_project.TypeOnboarding
 import com.example.myapplication.core.UserSession
@@ -22,13 +21,10 @@ class MainActivity : AppCompatActivity() {
         var userSession = UserSession(this)
         userSession.clean() //закомментировать
         if (userSession.inNeedShowOnboarding) {
-            val intent = Intent(this@MainActivity, OnboardingActivity::class.java)
-            intent.putExtra("type", TypeOnboarding.INTERCOM)
+            val type = TypeOnboarding.INTERCOM
             val isSubscriber = true
-            intent.putExtra("isSubscriber", isSubscriber)
             val idCity = 74
-            intent.putExtra("idCity", idCity)
-            startActivity(intent)
+            activityOnboarding(type, isSubscriber, idCity).startOnboardingActivity(this@MainActivity)
             userSession.sync(false)
             userSession.clean() //закомментировать
         }
@@ -36,4 +32,20 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+class activityOnboarding(
+    private val type: TypeOnboarding,
+    private val isSubscriber: Boolean,
+    private val idCity: Int
+) {
+    fun startOnboardingActivity(activity: Activity) {
+        Intent(activity, OnboardingActivity::class.java).apply {
+            putExtra("type", this@activityOnboarding.type)
+            putExtra("isSubscriber", isSubscriber)
+            putExtra("idCity", idCity)
+        }.let {
+            activity.startActivity(it)
+        }
+    }
+
+}
 
