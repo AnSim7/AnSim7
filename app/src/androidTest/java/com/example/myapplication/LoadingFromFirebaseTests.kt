@@ -26,8 +26,8 @@ class LoadingFromFirebaseTests {
     @Throws(Exception::class)
     fun correctLoadFromFirestore() {
         val type = "intercom"
-        val isAbonent=true
-        val idCity=74
+        val isAbonent = true
+        val idCity = 74
         val repository = SlideRepository(slideDao, type)
         GlobalScope.launch {
             repository.readData(type, isAbonent, idCity)
@@ -58,8 +58,8 @@ class LoadingFromFirebaseTests {
     @Throws(Exception::class)
     fun uncorrectLoadFromFirestore() {
         val type = "uncorrect"
-        val isAbonent=true
-        val idCity=74
+        val isAbonent = true
+        val idCity = 74
         val repository = SlideRepository(slideDao, type)
         GlobalScope.launch {
             repository.readData(type, isAbonent, idCity)

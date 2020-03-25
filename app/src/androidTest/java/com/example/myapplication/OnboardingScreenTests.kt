@@ -108,8 +108,6 @@ class OnboardingScreenTests {
     @Test
     fun checkViewPager() {
         introScreen {
-            //если будем ждать данные с firestore то код ниже вып раньше, если выкл инет и брать данные с бд то все ок
-            //или так
             sleep(10000)
             var coutSlides = countOfSlide
             while (coutSlides > 1) {
