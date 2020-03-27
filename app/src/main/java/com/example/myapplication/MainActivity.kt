@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity() {
             val type = TypeOnboarding.INTERCOM
             val isSubscriber = true
             val idCity = 74
-            activityOnboarding(type, isSubscriber, idCity).startOnboardingActivity(this@MainActivity)
+
+            activityOnboarding(type, isSubscriber, idCity).startOnboardingActivity(this@MainActivity, TargetActivity::class.java)
             userSession.sync(false)
             userSession.clean() //закомментировать
         }
@@ -37,11 +38,12 @@ class activityOnboarding(
     private val isSubscriber: Boolean,
     private val idCity: Int
 ) {
-    fun startOnboardingActivity(activity: Activity) {
+    fun startOnboardingActivity(activity: Activity, targetActivity: Class<*>) {
         Intent(activity, OnboardingActivity::class.java).apply {
             putExtra("type", this@activityOnboarding.type)
             putExtra("isSubscriber", isSubscriber)
             putExtra("idCity", idCity)
+            putExtra("targetActivity", targetActivity.toString().replace("class ", ""))
         }.let {
             activity.startActivity(it)
         }

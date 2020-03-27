@@ -2,6 +2,9 @@ package com.example.onboarding_project
 
 import com.google.firebase.firestore.*
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class AboutSlide(
     val id: Long,
@@ -27,11 +30,15 @@ class OnboardingModel {
             .setPersistenceEnabled(false) // отключение кэширования
             .build()
         db.firestoreSettings = settings
+        val maxWaitingTime=10
+        val startTime= Date().seconds
+        var hasTime=true
+
         db.collection("onboarding")
             .whereEqualTo("type", type)
             .get()
             .addOnSuccessListener { result ->
-                val data = arrayListOf<AboutSlide>()
+                var data = arrayListOf<AboutSlide>()
                 val idsSlide = arrayListOf<Long>()
                 val checked_list_id_number =
                     HashMap<Long, Long>() //список слайдов без повторений, на случай если будет несколько документов с type
@@ -39,8 +46,17 @@ class OnboardingModel {
                 if (result.isEmpty) {
                     onFailed(Exception())
                 }
+
+                if(Date().seconds-startTime > maxWaitingTime) {
+                    onFailed(Exception())
+                }
                 for (document in result) {
                     //Log.d("exist!!!", "${document.id} => ${document.data}")
+                    if(Date().seconds-startTime > maxWaitingTime) {
+                        onFailed(Exception())
+                        data = arrayListOf<AboutSlide>()
+                        break
+                    }
                     val idsCity = document.get("idCity") as ArrayList<Long>
 
                     if ((idsCity.contains(idCity.toLong()))) {
@@ -60,8 +76,8 @@ class OnboardingModel {
                                     .whereEqualTo("id", id)
                                     .get()
                                     .addOnSuccessListener { documentReference ->
+                                        //if(Date().seconds-startTime.seconds>maxWaitingTime) onFailed(Exception())
                                         load_slides(documentReference, data, idsSlide, id!!, checked_list_id_number)
-
                                         //Log.d("slide exist", "DocumentSnapshot added with")
                                         data.sortWith(compareBy({ it.number })) //сортировка по требуемому номеру показа слайда
                                         onComplete(data)

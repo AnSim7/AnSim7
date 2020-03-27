@@ -45,17 +45,35 @@ class OnboardingActivity : AppCompatActivity() {
         val typeOnboarding = intent.getSerializableExtra("type") as? TypeOnboarding
         val isSubsciber = intent.getBooleanExtra("isSubscriber", false)
         val idCity = intent.getIntExtra("idCity", 0)
+        //targetActivity
+        val targetActivity = intent.getStringExtra("targetActivity")
+        var counts= arrayListOf<Int>()
+        counts.add(-1)
+        var countSlides=0
 
         slideViewModel.loadDataFromFirestore(this, typeOnboarding!!.type, isSubsciber, idCity)
         slideViewModel.arr.observe(this, Observer {
-            var countSlides = it.size
-            it?.let {
+            if((it!=null) and (it.size!=counts[counts.size-1])) {
+                counts.add(it.size)
+
+                val text = counts.toString()
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(applicationContext, text, duration)
+                toast.show()
+
+                //if(countSlides<counts[counts.size-1]) {
+                    countSlides = counts[counts.size-1]
+               // }
                 slideViewModel.allSlides.observe(this, Observer { slides ->
                     slides?.let {
                         if ((countSlides == 0) and (slides.size == 0)) {
-                            startActivity(Intent(this@OnboardingActivity, TargetActivity::class.java))
-                        } else if (countSlides == 0) {
+                            startActivity(Intent(this@OnboardingActivity, Class.forName(targetActivity)))
+                        } else if ((countSlides == 0) or (countSlides<slides.size)) {
+                            var p=32
                             countSlides = slides.size
+                            val duration = Toast.LENGTH_SHORT
+                            val toast = Toast.makeText(applicationContext, countSlides.toString(), duration)
+                            toast.show()
                         }
                         introViewPageAdapter = OnboardingViewPagerAdapter(this, it)
                         binding.screenViewpager.adapter = introViewPageAdapter
@@ -63,7 +81,7 @@ class OnboardingActivity : AppCompatActivity() {
                         binding.tabLayout.setupWithViewPager(binding.screenViewpager)
                         binding.skip.setOnClickListener {
                             //it_check[screen_viewpager.currentItem].targetLink
-                            startActivity(Intent(this@OnboardingActivity, TargetActivity::class.java))
+                            startActivity(Intent(this@OnboardingActivity, Class.forName(targetActivity)))
                         }
                         binding.next.setOnClickListener {
                             if (screen_viewpager.currentItem < countSlides) {
@@ -90,7 +108,7 @@ class OnboardingActivity : AppCompatActivity() {
 
                         //it_check[screen_viewpager.currentItem].targetLink
                         binding.start.setOnClickListener {
-                            startActivity(Intent(this@OnboardingActivity, TargetActivity::class.java))
+                            startActivity(Intent(this@OnboardingActivity, Class.forName(targetActivity)))
                         }
 
                     }
